@@ -39,9 +39,9 @@ public class Sale {
 
     public void makePayment() {
         int enteredCoinParValue;
-        //view.printMessageAndInt(View.BALANCE, balance);
-        //view.printMessage(View.COINS_MENU);
         do {
+            view.printMessageAndString(View.SELECTED_ITEM, choosenBeverage.toString()
+                    + " = " + BEVERAGES_PRICES.get(choosenBeverage));
             view.printMessageAndInt(View.BALANCE, balance);
             enteredCoinParValue = controller.getUsersCoinsWithScanner(View.COINS_MENU, View.WRONG_COIN);
             if (enteredCoinParValue == CANCEL_ORDER) {
@@ -51,7 +51,7 @@ public class Sale {
                 break;
             } else if (ACCEPTING_COINS.contains(enteredCoinParValue)) {
                 balance += enteredCoinParValue;
-            } else if (enteredCoinParValue == END_BALANCE_RECHARGE){
+            } else if (enteredCoinParValue == END_BALANCE_RECHARGE) {
                 view.printMessageAndInt(View.ACCUMULATED_BALANCE, balance);
             } else {
                 view.printMessage(View.WRONG_COIN);
@@ -62,6 +62,7 @@ public class Sale {
     public void giveUsersBeverage() {
         if (!choosenBeverage.equals(Beverages.UNDEFINED)) {
             view.printMessageAndString(View.TAKE_BEVERAGE, choosenBeverage.toString());
+//            choosenBeverage = Beverages.COMPLETED;
         }
     }
 
@@ -75,5 +76,12 @@ public class Sale {
 
     public boolean isOrderCanceled() {
         return choosenBeverage.equals(Beverages.UNDEFINED);
+    }
+
+    public void giveShortChange() {
+        shortChange = balance - cost;
+        if (!choosenBeverage.equals(Beverages.UNDEFINED)) {
+            view.printMessageAndInt(View.TAKE_SHORT_CHANGE, shortChange);
+        }
     }
 }

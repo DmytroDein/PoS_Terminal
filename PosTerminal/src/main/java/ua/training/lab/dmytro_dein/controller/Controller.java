@@ -29,30 +29,25 @@ public class Controller {
                 case TEA:
                 case COFFEE:
                 case JUICE:
-                    System.out.println("Selected item: " + userChoose);
                     sale = new Sale(userChoose, this, view);
-                    while (!sale.isEnoughMoneyForOrderSell() || !sale.isOrderCanceled()) {
-                        sale.makePayment();
-                        if (!sale.isEnoughMoneyForOrderSell()) {
-                            view.printMessageAndString(View.NOT_ENOUGH_MONEY, userChoose.toString());
-                        }
-                    }
+                    collectPayments(userChoose, sale);
                     sale.giveUsersBeverage();
-
-                    /*sale.makePayment();
-                    if(sale.isEnoughMoneyForOrderSell()){
-                        sale.giveUsersBeverage();
-                    } else {
-                        view.printMessageAndString(View.NOT_ENOUGH_MONEY, userChoose.toString());
-                        sale.makePayment();
-                    }*/
-
+                    sale.giveShortChange();
                     break;
                 default:
                     System.out.println("Selected item: " + userChoose);
             }
         }
 
+    }
+
+    private void collectPayments(Beverages userChoose, Sale sale) {
+        do {
+            sale.makePayment();
+            if (!sale.isEnoughMoneyForOrderSell()) {
+                view.printMessageAndString(View.NOT_ENOUGH_MONEY, userChoose.toString());
+            }
+        } while (!sale.isEnoughMoneyForOrderSell());
     }
 
     public Beverages readUserBeverageSelectionWithScanner(String askMessage, String wrongMessage) {

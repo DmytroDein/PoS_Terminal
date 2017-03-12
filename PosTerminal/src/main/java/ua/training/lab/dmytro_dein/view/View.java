@@ -11,7 +11,7 @@ public class View {
             "0. Exit\n\n" +
             "Your choose: ";
     public static final String WRONG_INPUT_INT_DATA = "Wrong input! Repeat please!\n";
-    public static final String BALANCE = "\nYour balance is: %d%n";
+    public static final String BALANCE = "Your balance is: %d%n";
     public static final String COINS_MENU = "Please insert coins of par values '1', '5', '10', '25', '50'\n" +
             "Special value '0' for completing balance replenishment\n" +
             "Special value '999' for order cancellation\n" +
@@ -19,9 +19,11 @@ public class View {
     public static final String WRONG_COIN = "Incorrect coin par value. Try again!\n";
     public static final String CANCEL_ORDER_AND_TAKE_BALANCE_REPLENISHMENT = "Order cancelled. Take your balance of: %d%n";
     public static final String TAKE_BEVERAGE = "Please take your beverage: %s%n";
-    public static final String ACCUMULATED_BALANCE = "Accumulated balance is %d%n";
+    public static final String ACCUMULATED_BALANCE = "--\nAccumulated balance is %d coin(s).%n";
     public static final String NOT_ENOUGH_MONEY = "There is not enough money for selected position %s." +
-            "\nPlease refill your balance or cancel the order.";
+            "\nPlease refill your balance or cancel the order.\n";
+    public static final String TAKE_SHORT_CHANGE = "Please take short change: %d coin(s)%n";
+    public static final String SELECTED_ITEM = "\nSelected item: %s coin(s).%n";
 
     public void printMessage(String message){
         System.out.print(message);
