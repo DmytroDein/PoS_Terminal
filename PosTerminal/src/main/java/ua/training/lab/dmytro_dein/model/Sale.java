@@ -1,7 +1,8 @@
 package ua.training.lab.dmytro_dein.model;
 
 
-import ua.training.lab.dmytro_dein.controller.Controller;
+import ua.training.lab.dmytro_dein.controller.ControllerImpl;
+import ua.training.lab.dmytro_dein.controller.UserInteractionHandler;
 import ua.training.lab.dmytro_dein.view.View;
 
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class Sale {
 
     private static final Set<Integer> ACCEPTING_COINS = Stream.of(1, 5, 10, 25, 50).collect(Collectors.toSet());
 
-    private final Controller controller;
+    UserInteractionHandler userInteractionHandler;
     private final View view;
     private Beverages choosenBeverage;
     private int cost;
@@ -30,10 +31,10 @@ public class Sale {
     private int shortChange = 0;
 
 
-    public Sale(Beverages choosenBeverage, Controller controller, View view) {
+    public Sale(Beverages choosenBeverage, UserInteractionHandler userInteractionHandler, View view) {
         this.choosenBeverage = choosenBeverage;
         this.cost = BEVERAGES_PRICES.get(choosenBeverage);
-        this.controller = controller;
+        this.userInteractionHandler = userInteractionHandler;
         this.view = view;
     }
 
@@ -43,7 +44,7 @@ public class Sale {
             view.printMessageAndString(View.SELECTED_ITEM, choosenBeverage.toString()
                     + " = " + BEVERAGES_PRICES.get(choosenBeverage));
             view.printMessageAndInt(View.BALANCE, balance);
-            enteredCoinParValue = controller.getUsersCoinsWithScanner(View.COINS_MENU, View.WRONG_COIN);
+            enteredCoinParValue = userInteractionHandler.getUsersCoinsWithScanner(View.COINS_MENU, View.WRONG_COIN);
             if (enteredCoinParValue == CANCEL_ORDER) {
                 view.printMessageAndInt(View.CANCEL_ORDER_AND_TAKE_BALANCE_REPLENISHMENT, balance);
                 choosenBeverage = Beverages.UNDEFINED;
