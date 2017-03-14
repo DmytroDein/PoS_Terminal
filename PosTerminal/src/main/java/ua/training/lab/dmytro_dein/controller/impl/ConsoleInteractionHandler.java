@@ -1,23 +1,26 @@
-package ua.training.lab.dmytro_dein.controller;
+package ua.training.lab.dmytro_dein.controller.impl;
 
+import ua.training.lab.dmytro_dein.controller.InteractionHandling;
 import ua.training.lab.dmytro_dein.model.Beverages;
 import ua.training.lab.dmytro_dein.model.Sale;
+import ua.training.lab.dmytro_dein.model.impl.SaleImpl;
 import ua.training.lab.dmytro_dein.view.View;
 
 import java.io.InputStream;
 import java.util.Scanner;
 
-public class UserInteractionHandler {
+public class ConsoleInteractionHandler implements InteractionHandling {
     //Constants
     private static final InputStream INPUT_STREAM = System.in;
     private static final Scanner INPUT_READER = new Scanner(INPUT_STREAM);
     private final View view;
 
-    public UserInteractionHandler(View view) {
+    public ConsoleInteractionHandler(View view) {
         this.view = view;
     }
 
-    public void processUser() {
+    @Override
+    public void startInteraction() {
         Beverages userChoose;
         Sale sale;
 
@@ -27,7 +30,7 @@ public class UserInteractionHandler {
                 case TEA:
                 case COFFEE:
                 case JUICE:
-                    sale = new Sale(userChoose, this, view);
+                    sale = new SaleImpl(userChoose, this, view);
                     collectPayments(userChoose, sale);
                     sale.giveUsersBeverage();
                     sale.giveShortChange();
@@ -36,10 +39,13 @@ public class UserInteractionHandler {
                     System.out.println("Selected item: " + userChoose);
             }
         }
-
     }
 
-    void collectPayments(Beverages userChoose, Sale sale) {
+    public int getUsersCoinsWithScanner(String askMessage, String wrongMessage) {
+        return getIntValueWithScanner(askMessage, wrongMessage);
+    }
+
+    private void collectPayments(Beverages userChoose, Sale sale) {
         do {
             sale.makePayment();
             if (!sale.isEnoughMoneyForOrderSell()) {
@@ -48,16 +54,12 @@ public class UserInteractionHandler {
         } while (!sale.isEnoughMoneyForOrderSell());
     }
 
-    public Beverages readUserBeverageSelectionWithScanner(String askMessage, String wrongMessage) {
+    private Beverages readUserBeverageSelectionWithScanner(String askMessage, String wrongMessage) {
         int enteredValue = getIntValueWithScanner(askMessage, wrongMessage);
         return Beverages.mapFromInt(enteredValue);
     }
 
-    public int getUsersCoinsWithScanner(String askMessage, String wrongMessage) {
-        return getIntValueWithScanner(askMessage, wrongMessage);
-    }
-
-    int getIntValueWithScanner(String askMessage, String wrongMessage) {
+    private int getIntValueWithScanner(String askMessage, String wrongMessage) {
         int enteredValue;
         do {
             view.printMessage(askMessage);
