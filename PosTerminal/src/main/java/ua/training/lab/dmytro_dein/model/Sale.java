@@ -15,4 +15,6 @@ public interface Sale {
     boolean isOrderCanceled();
 
     void giveShortChange();
+
+    void collectPayments(Beverages userChoose);
 }

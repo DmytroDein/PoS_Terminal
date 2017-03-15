@@ -31,7 +31,7 @@ public class ConsoleInteractionHandler implements InteractionHandling {
                 case COFFEE:
                 case JUICE:
                     sale = new SaleImpl(userChoose, this, view);
-                    collectPayments(userChoose, sale);
+                    sale.collectPayments(userChoose);
                     sale.giveUsersBeverage();
                     sale.giveShortChange();
                     break;
@@ -43,15 +43,6 @@ public class ConsoleInteractionHandler implements InteractionHandling {
 
     public int getUsersCoinsWithScanner(String askMessage, String wrongMessage) {
         return getIntValueWithScanner(askMessage, wrongMessage);
-    }
-
-    private void collectPayments(Beverages userChoose, Sale sale) {
-        do {
-            sale.makePayment();
-            if (!sale.isEnoughMoneyForOrderSell()) {
-                view.printMessageAndString(View.NOT_ENOUGH_MONEY, userChoose.toString());
-            }
-        } while (!sale.isEnoughMoneyForOrderSell());
     }
 
     private Beverages readUserBeverageSelectionWithScanner(String askMessage, String wrongMessage) {

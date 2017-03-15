@@ -92,4 +92,14 @@ public class SaleImpl implements Sale {
             view.printMessageAndInt(View.TAKE_SHORT_CHANGE, shortChange);
         }
     }
+
+    @Override
+    public void collectPayments(Beverages userChoose) {
+        do {
+            makePayment();
+            if (!isEnoughMoneyForOrderSell()) {
+                view.printMessageAndString(View.NOT_ENOUGH_MONEY, userChoose.toString());
+            }
+        } while (!isEnoughMoneyForOrderSell());
+    }
 }
